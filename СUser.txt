@@ -1,0 +1,6 @@
+CREATE table "СUSER" (
+    "ID"     NUMBER NOT NULL primary key,
+    "LOGIN"       VARCHAR2(40) NOT NULL UNIQUE,
+    "PASSWORD"    VARCHAR2(64) NOT NULL,
+	"ACTIVE" CHAR(2) NOT NULL
+);
