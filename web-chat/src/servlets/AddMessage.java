@@ -2,15 +2,14 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import util.Message;
 
 import dao.Factory;
 import model.User;
@@ -24,24 +23,16 @@ public class AddMessage extends Dispetcher {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		History history = History.INSTANCE;
-		User user = null;
+		String from = request.getSession().getAttribute("login").toString();
 		String who = request.getParameter("who");
 		String message = request.getParameter("message");
 		if (!"".equals(message.trim()) && message != null) {
 			message = message.trim();
 			if (!"".equals(who.trim()) && who != null) {
 				who = who.trim();
-				try {
-					user = Factory.getUserDAO().getUserByLogin(who);
-				} catch (SQLException e) {
-					forward("/error.jsp", request, response);
-					e.printStackTrace();
-				}
-				if (user != null) {
-					// Здесь будет приватное общение
-				}
+				history.addMessage(new Message(message, from,  who));
 			} else {
-				history.addMessage(getTime() + " " + request.getSession().getAttribute("login") + "<br>" + message);
+				history.addMessage(new Message(message, from));
 			}
 		}
 		forward("/chat.jsp", request, response);
@@ -58,13 +49,6 @@ public class AddMessage extends Dispetcher {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private String getTime() {
-		Date now = new Date();
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String time = formatter.format(now);
-		return time;
 	}
 
 }

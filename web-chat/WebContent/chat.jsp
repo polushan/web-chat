@@ -5,12 +5,13 @@
 
 <HTML>
 <HEAD>
-<%
-out.println("<script language=\"JavaScript\"> ");
-out.println("function logout_f() ");
-out.println(" { window.location = \"/Logout\"; } ");
-out.println("</script>");
-%>
+
+<script language="JavaScript">
+function logout_f() { 
+	window.location = "Logout";
+}
+</script>
+
 <meta http-equiv="Content-Type" content="5; text/html; charset=utf-8" HTTP-EQUIV=Refresh>
 <title>"Чат"</title>
 </HEAD>
